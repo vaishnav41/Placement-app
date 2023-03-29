@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Departmental Data</title>
+</head>
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+    crossorigin="anonymous"/>
+<body>
+    <!-- <nav class="navbar navbar-expand-sm bg-warning navbar-dark">
+        <div class="container-fluid">
+          <span class="navbar-text text-dark">CENTRAL PLACEMENT OFFICE, CUSAT</span>
+        </div>
+      </nav>  -->
+      <nav class="navbar navbar-expand-lg bg-white">
+        <div class="container-fluid ps-4">
+          <a class="navbar-brand" href="#"><img src="./img/pictulogo.png" alt="Bootstrap" width="48" class="me-2">CENTRAL PLACEMENT OFFICE, CUSAT</a>
+          <button class="navbar-toggler justify-self-end" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+      </nav>
+</body>
+<div class="container p-5 my-5 justify-content-center">
+  <div class="row">
+      <div class="col d-flex justify-content-center">
+  <h4>Departmental Data Retreival Page</h4>
+</div>
+</div>
+</div>
+<div class="container p-1">
+    <form action="/" method="post">
+        <div class="d-flex justify-content-center">
+          <div class="btn-group dropend p-2">
+            <label class="text-white dark:text-gray-200" for="Department">Department</label>
+            <select id="Department" name="department" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
+                <option value="Information Technology - SOE">Information Technology - SOE</option>
+                <option value="Computer Science Engineering - SOE">Computer Science Engineering - SOE</option>
+                <option value="Mechanical Engineering - SOE">Mechanical Engineering - SOE</option>
+                <option value="Civil Engineering - SOE">Civil Engineering - SOE</option>
+                <option value="Electical Engineering - SOE">Electical Engineering - SOE</option>
+                <option value="Electronics and Communications Engineering - SOE">Electronics and Communications Engineering - SOE</option>
+                <option value="Safety and Fire Engineering - SOE">Safety and Fire Engineering - SOE</option>
+                <option value="MBA - SMS">MBA - SMS</option>
+                <option value="BBA - SMS">BBA - SMS</option>
+                <option value="B.com LLB - SLS">B.com LLB - SLS</option>
+                <option value="LLB - SLS">LLB - SLS</option>
+              </select>
+          </div>
+              <div class="btn-group dropend p-2">
+                <button type="submit" class="btn btn-success btn-sm" id="conformer">CONFIRM</button>
+              </div>
+        </div>
+      </form>
+</div>
+<div class="card">
+  <div class="card-header">
+      <div class="row">
+          <div class="col">Students' Information</div>
+          <div class="col"></div>
+      </div>
+  </div>
+  <%if(selecteddept != "") {%>
+    <h4>Showing Details of <%=selecteddept%> students</h4>
+    <%}%>
+  <div class="card-body">
+      <div class="table-responsive">
+          <table class="table table-bordered">
+              <tr>
+                  <th>Register Number</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Department</th>
+                  <th>Company</th>
+                  <th>Package</th>
+              </tr>
+             <% rows.map((eachData) => { %>
+                <% if (eachData.Department == selecteddept ) { %>
+              <tr>
+                   <td><%= eachData.RegisterNo%></td>
+                   <td><%= eachData.FirstName %></td>
+                   <td><%= eachData.LastName %></td>
+                   <td><%= eachData.Department %></td>
+                   <td><%= eachData.company %></td>
+                   <td><%= eachData.package %></td>
+              </tr>
+              <%}%>
+              <% }) %>
+          </table>
+      </div>      
+</html>

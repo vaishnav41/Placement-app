@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VERIFY - students</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+<body>
+    <!-- <div class="container">
+        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+          <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+            <span class="fs-4">CENTRAL PLACEMENT CELL</span>
+          </a>
+    
+          <ul class="nav nav-pills">
+            <li class="nav-item"><a href="#" class="nav-link" aria-current="page"><%=crname%></a></li>
+            <li class="nav-item"><a href="http://localhost:4020/CoordinatorHome.html" class="nav-link active">Coordinator Home</a></li>          </ul>
+        </header>
+      </div> -->
+      <nav class="navbar navbar-expand-lg bg-white">
+        <div class="container-fluid ps-4">
+          <a class="navbar-brand" href="#"><img src="./img/pictulogo.png" alt="Bootstrap" width="48" class="me-2">CENTRAL PLACEMENT OFFICE, CUSAT</a>
+          <button class="navbar-toggler justify-self-end" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <ul class="nav nav-pills">
+            <li class="nav-item"><a href="#" class="nav-link" aria-current="page"><%=crname%></a></li>
+            <li class="nav-item"><a href="http://localhost:4020/coordinatorhome" class="nav-link active">Coordinator Home</a></li>         
+           </ul>
+        </div>
+      </nav>
+      <main class="container">
+        <form action="/" method="post">
+        <div class="d-flex justify-content-center">
+          <div class="btn-group dropend p-2">
+            <label class="text-white dark:text-gray-200" for="Department">Department</label>
+            <select id="Department" name="department" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
+                <option value="Information Technology - SOE">Information Technology - SOE</option>
+                <option value="Computer Science Engineering - SOE">Computer Science Engineering - SOE</option>
+                <option value="Mechanical Engineering - SOE">Mechanical Engineering - SOE</option>
+                <option value="Civil Engineering - SOE">Civil Engineering - SOE</option>
+                <option value="Electical Engineering - SOE">Electical Engineering - SOE</option>
+                <option value="Electronics and Communications Engineering - SOE">Electronics and Communications Engineering - SOE</option>
+                <option value="Safety and Fire Engineering - SOE">Safety and Fire Engineering - SOE</option>
+                <option value="MBA - SMS">MBA - SMS</option>
+                <option value="BBA - SMS">BBA - SMS</option>
+                <option value="B.com LLB - SLS">B.com LLB - SLS</option>
+                <option value="LLB - SLS">LLB - SLS</option>
+              </select>
+          </div>
+              <div class="btn-group dropend p-2">
+                <button type="submit" class="btn btn-success btn-sm" id="conformer">CONFIRM</button>
+              </div>
+        </div>
+      </form>
+        <div class="container">
+          <%if(selecteddept != "") {%>
+          <h4>Showing Details of <%=selecteddept%> students</h4>
+          <%}%>
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                    <th scope="col">RollNO</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">EmailID</th>
+                    <th scope="col">Select</th>
+              </tr>
+              </thead>
+              <tbody id="vbodyy">
+                <% rows.map((eachData) => { %>
+                  <% if (eachData.Department == selecteddept && eachData.verified == 0) { %>
+                  <tr>
+                       <td><%= eachData.RegisterNo%></td>
+                       <td><%= eachData.FirstName %></td>
+                       <td><%= eachData.email %></td>
+                       <td><a class="btn btn-primary p-2" href="http://localhost:4020/studentdetails?regid=<%= eachData.RegisterNo%>">Details</a></td>
+                       <td><a class="btn btn-success p-2" href="http://localhost:4020/verifythis?regid=<%= eachData.RegisterNo%>">Verify</a></td>
+                  </tr>
+                  <%}%>
+                  <% }) %>
+              </tbody>
+      </table>
+      </div>
+      </main> 
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>    
+</body>
+</html>

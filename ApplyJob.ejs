@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+<body>
+    <!-- <div class="container">
+        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+          <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+            <span class="fs-4">CENTRAL PLACEMENT CELL</span>
+          </a>
+                                            
+          <ul class="nav nav-pills">
+            <li class="nav-item"><a href="#" class="nav-link"><%=stu%></a></li>
+            <li class="nav-item"><a href="#" class="nav-link active">Student Home</a></li>
+          </ul>
+        </header>
+      </div> -->
+      <nav class="navbar navbar-expand-lg bg-white">
+        <div class="container-fluid ps-4">
+          <a class="navbar-brand" href="#"><img src="./img/pictulogo.png" alt="Bootstrap" width="48" class="me-2">CENTRAL PLACEMENT OFFICE, CUSAT</a>
+          <button class="navbar-toggler justify-self-end" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <ul class="nav nav-pills">
+            <li class="nav-item"><a href="#" class="nav-link"><%=stu%></a></li>
+            <li class="nav-item"><a href="http://localhost:4020/studenthome" class="nav-link active">Student Home</a></li>
+          </ul>
+        </div>
+      </nav>
+      <section>
+        <%{%>
+          <script>
+            console.log(rows);
+          </script>
+        <%}%>
+        <div class="container text-center">
+            <div class="row row-cols-3" id="jobs">
+              <% rows.forEach(jobs=> { %>
+                <% let branches = jobs.branch.split(","); %>
+                <%if(branches.includes(dept)){ if (jobIds.indexOf(jobs.jobid) !== -1) {} else {%>
+                <div class="col card rounded-0 border border-primary border-5 mx-3 my-5 text-primary-emphasis bg-primary-subtle" style="width: 25rem;">
+                    <div class="card-body">
+                      <h1 class="card-title"><%=jobs.compname%></h1>
+                      <p class="card-subtitle mb-2 text-muted"><%=jobs.offer%> LPA</p>
+                      <p class="card-subtitle mb-2"><%=jobs.position%></p>
+                      <div class="row">
+                          <a href="http://localhost:4020/companydetails?compid=<%= jobs.companyId%>" class="col btn btn-info mx-4 my-2">More Info</a>
+                          <a href="http://localhost:4020/Appytothis?jobid=<%=jobs.jobid%>&regno=<%=stu%>" class="col btn btn-success mx-4 my-2">Apply</a>
+                      </div>
+                    </div>
+                  </div>
+                <%} }%>
+                <%});%>
+            </div>
+          </div>
+    </section>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Schedule</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/custom.css">
+</head>
+<body>
+    <div class="container">
+        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+          <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+            <span class="fs-4">CENTRAL PLACEMENT CELL</span>
+          </a>
+    
+          <ul class="nav nav-pills">
+            <li class="nav-item"><a href="#" class="nav-link" aria-current="page">Name</a></li>
+            <li class="nav-item"><a href="#" class="nav-link"><%=regno%></a></li>
+            <li class="nav-item"><a href="#" class="nav-link active">Student Home</a></li>
+          </ul>
+        </header>
+      </div>
+      <%let selecdate = [];let selecjob = [];let selecevent = []; const datecollected = []; let selected = [];%>
+      <%let curr = currentmonth;const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];%>
+      <div class="container text-center">
+        <h1>SCHEDULE</h1>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+              <% for(let i = 0; i < 12; i++) { %>
+                <% if(curr == i) { %>
+                  <li><a class="page-link active" href="http://localhost:4020/Calendar?reg=<%= regno %>&currm=<%=i%>"><%=month[i]%></a></li>
+                <% } else { %>
+                  <li><a class="page-link" href="http://localhost:4020/Calendar?reg=<%= regno %>&currm=<%=i%>"><%=month[i]%></a></li>
+                <% } %>
+              <% } %>                          
+            </ul>
+          </nav>
+      </div>
+    <%let jobord = [];%>
+    <%for(let i = 0;i< schedule.length ; i++) {selecdate.push(schedule[i].dates); selecjob.push(schedule[i].jobid); selecevent.push(schedule[i].events);}%>
+    <%for(let i = 0;i< jobber.length; i++) 
+    { for(let j = 0;j< selecjob.length; j++) 
+      {if(jobber[i].jobid == selecjob[j])
+        {
+          jobord.push(jobber[i].compname);
+        }
+      }    
+    } %>
+    <%for(let i = 0;i< selecdate.length ; i++) {let date = new Date(selecdate[i]); let month = date.getUTCMonth(); let day = date.getUTCDate()+1; selected.push(month); selected.push(day); selected.push(selecevent[i]); selected.push(jobord[i]); datecollected.push(selected); selected = [];}%> 
+    <section class="text-center">
+    <%const daysofmonth = [31,28,31,30,31,30,31,31,30,31,30,31];const firstdayofmonth= [0,3,3,6,1,4,6,2,5,0,3,5];const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];%>
+        <div class="container text-center">
+            <div class="row seven-cols" id="schedule">
+              <%for(let i = 0;i< 7;i++) {%>
+                <div class="col-md-1 border border-success"><%=days[i]%></div>
+              <%}%>
+              <%let j = 0; let limit = datecollected.length;%>
+              <% for(let i = 0; i < daysofmonth[curr] + firstdayofmonth[curr]; i++) { %>
+                <% if(i < firstdayofmonth[curr]) { %>
+                  <div class="card" style="width: 11.78rem; height: 8rem;">
+                    <div class="card-body">
+                      <h2 class="card-title">-</h2>
+                    </div>
+                  </div>
+                <% } else {
+                  if(j < limit && i - firstdayofmonth[curr] + 1 == datecollected[j][1] && curr == datecollected[j][0]) {%>                  
+                    <div class="card" style="width: 11.78rem; height: 8rem;" id="-<%=i - firstdayofmonth[curr] + 1 %><%=curr%>-">
+                      <div class="card-body" id="<%=i - firstdayofmonth[curr] + 1 %>-<%=curr%>">
+                        <h2 class="card-title"><%= i - firstdayofmonth[curr] + 1 %></h2>
+                      </div>
+                    </div> 
+                  <% j++; } else {%>
+                    <div class="card" style="width: 11.78rem; height: 8rem;" id="-<%=i - firstdayofmonth[curr] + 1 %><%=curr%>-">
+                      <div class="card-body" id="<%=i - firstdayofmonth[curr] + 1 %>-<%=curr%>">
+                        <h2 class="card-title"><%= i - firstdayofmonth[curr] + 1 %></h2>
+                      </div>
+                    </div>                    
+                  <% } %>
+                <% } %>
+              <% } %>
+            </div>
+          </div>
+          <%if(datecollected.length == 1) {%>
+            <script>
+              var selectb1,selectb2,selectb3,selectb4,selectb5,select1,select2,select3,select4,select5;
+                selectb1 = document.getElementById('-<%=datecollected[0][1]%><%=datecollected[0][0]%>-');
+                selectb1.classList.add("text-warning-emphasis");
+                selectb1.classList.add("bg-warning-subtle");
+                selectb1.classList.add("border");
+                selectb1.classList.add("border-warning");
+                selectb1.classList.add("rounded-3");
+                select1 = document.getElementById('<%=datecollected[0][1]%>-<%=datecollected[0][0]%>');
+                select1.innerHTML += `<h6 class="card-subtitle mb-2 text-muted"><%=datecollected[0][2]%></h6><p class="card-text"><%=datecollected[0][3]%></p>`;
+            </script>
+          <% } else if(datecollected.length == 2){ %>
+            <script>
+              var selectb1,selectb2,selectb3,selectb4,selectb5,select1,select2,select3,select4,select5;
+              selectb1 = document.getElementById('-<%=datecollected[0][1]%><%=datecollected[0][0]%>-');
+              selectb1.classList.add("text-warning-emphasis");
+              selectb1.classList.add("bg-warning-subtle");
+              selectb1.classList.add("border");
+              selectb1.classList.add("border-warning");
+              selectb1.classList.add("rounded-3");
+              selectb2 = document.getElementById('-<%=datecollected[1][1]%><%=datecollected[1][0]%>-');
+              selectb2.classList.add("text-warning-emphasis");
+              selectb2.classList.add("bg-warning-subtle");
+              selectb2.classList.add("border");
+              selectb2.classList.add("border-warning");
+              selectb2.classList.add("rounded-3");
+              select1 = document.getElementById('<%=datecollected[0][1]%>-<%=datecollected[0][0]%>');
+              select1.innerHTML += `<h6 class="card-subtitle mb-2 text-muted"><%=datecollected[0][2]%></h6><p class="card-text"><%=datecollected[0][3]%></p>`;
+              select2 = document.getElementById('<%=datecollected[1][1]%>-<%=datecollected[1][0]%>');
+              select2.innerHTML += `<h6 class="card-subtitle mb-2 text-muted"><%=datecollected[1][2]%></h6><p class="card-text"><%=datecollected[1][3]%></p>`;
+            </script>
+          <% } else if(datecollected.length == 3) {%>
+            <script>
+              var selectb1,selectb2,selectb3,selectb4,selectb5,select1,select2,select3,select4,select5;
+              selectb1 = document.getElementById('-<%=datecollected[0][1]%><%=datecollected[0][0]%>-');
+              selectb1.classList.add("text-warning-emphasis");
+              selectb1.classList.add("bg-warning-subtle");
+              selectb1.classList.add("border");
+              selectb1.classList.add("border-warning");
+              selectb1.classList.add("rounded-3");
+              selectb2 = document.getElementById('-<%=datecollected[1][1]%><%=datecollected[1][0]%>-');
+              selectb2.classList.add("text-warning-emphasis");
+              selectb2.classList.add("bg-warning-subtle");
+              selectb2.classList.add("border");
+              selectb2.classList.add("border-warning");
+              selectb2.classList.add("rounded-3");
+              selectb3 = document.getElementById('-<%=datecollected[0][1]%><%=datecollected[0][0]%>-');
+              selectb3.classList.add("text-warning-emphasis");
+              selectb3.classList.add("bg-warning-subtle");
+              selectb3.classList.add("border");
+              selectb3.classList.add("border-warning");
+              selectb3.classList.add("rounded-3");
+              select1 = document.getElementById('<%=datecollected[0][1]%>-<%=datecollected[0][0]%>');
+              select1.innerHTML += `<h6 class="card-subtitle mb-2 text-muted"><%=datecollected[0][2]%></h6><p class="card-text"><%=datecollected[0][3]%></p>`;
+              select2 = document.getElementById('<%=datecollected[1][1]%>-<%=datecollected[1][0]%>');
+              select2.innerHTML += `<h6 class="card-subtitle mb-2 text-muted"><%=datecollected[1][2]%></h6><p class="card-text"><%=datecollected[1][3]%></p>`;
+              select3 = document.getElementById('<%=datecollected[2][1]%>-<%=datecollected[2][0]%>');
+              select3.innerHTML += `<h6 class="card-subtitle mb-2 text-muted"><%=datecollected[2][2]%></h6><p class="card-text"><%=datecollected[2][3]%></p>`;
+            </script>
+          <% } else if(datecollected.length == 4) {%>
+              <script>
+                var selectb1,selectb2,selectb3,selectb4,selectb5,select1,select2,select3,select4,select5;
+                selectb1 = document.getElementById('-<%=datecollected[0][1]%><%=datecollected[0][0]%>-');
+                selectb1.classList.add("text-warning-emphasis");
+                selectb1.classList.add("bg-warning-subtle");
+                selectb1.classList.add("border");
+                selectb1.classList.add("border-warning");
+                selectb1.classList.add("rounded-3");
+                selectb2 = document.getElementById('-<%=datecollected[1][1]%><%=datecollected[1][0]%>-');
+                selectb2.classList.add("text-warning-emphasis");
+                selectb2.classList.add("bg-warning-subtle");
+                selectb2.classList.add("border");
+                selectb2.classList.add("border-warning");
+                selectb2.classList.add("rounded-3");
+                selectb3 = document.getElementById('-<%=datecollected[0][1]%><%=datecollected[0][0]%>-');
+                selectb3.classList.add("text-warning-emphasis");
+                selectb3.classList.add("bg-warning-subtle");
+                selectb3.classList.add("border");
+                selectb3.classList.add("border-warning");
+                selectb3.classList.add("rounded-3");
+                selectb4 = document.getElementById('-<%=datecollected[1][1]%><%=datecollected[1][0]%>-');
+                selectb4.classList.add("text-warning-emphasis");
+                selectb4.classList.add("bg-warning-subtle");
+                selectb4.classList.add("border");
+                selectb4.classList.add("border-warning");
+                selectb4.classList.add("rounded-3");
+                select1 = document.getElementById('<%=datecollected[0][1]%>-<%=datecollected[0][0]%>');
+                select1.innerHTML += `<h6 class="card-subtitle mb-2 text-muted"><%=datecollected[0][2]%></h6><p class="card-text"><%=datecollected[0][3]%></p>`;
+                select2 = document.getElementById('<%=datecollected[1][1]%>-<%=datecollected[1][0]%>');
+                select2.innerHTML += `<h6 class="card-subtitle mb-2 text-muted"><%=datecollected[1][2]%></h6><p class="card-text"><%=datecollected[1][3]%></p>`;
+                select3 = document.getElementById('<%=datecollected[2][1]%>-<%=datecollected[0][0]%>');
+                select3.innerHTML += `<h6 class="card-subtitle mb-2 text-muted"><%=datecollected[2][2]%></h6><p class="card-text"><%=datecollected[2][3]%></p>`;
+                select4 = document.getElementById('<%=datecollected[3][1]%>-<%=datecollected[1][0]%>');
+                select4.innerHTML += `<h6 class="card-subtitle mb-2 text-muted"><%=datecollected[3][2]%></h6><p class="card-text"><%=datecollected[3][3]%></p>`;
+              </script>
+          <% } else if(datecollected.length == 5) {%>
+                <script>
+                  var selectb1,selectb2,selectb3,selectb4,selectb5,select1,select2,select3,select4,select5;
+                  selectb1 = document.getElementById('-<%=datecollected[0][1]%><%=datecollected[0][0]%>-');
+                  selectb1.classList.add("text-warning-emphasis");
+                  selectb1.classList.add("bg-warning-subtle");
+                  selectb1.classList.add("border");
+                  selectb1.classList.add("border-warning");
+                  selectb1.classList.add("rounded-3");
+                  selectb2 = document.getElementById('-<%=datecollected[1][1]%><%=datecollected[1][0]%>-');
+                  selectb2.classList.add("text-warning-emphasis");
+                  selectb2.classList.add("bg-warning-subtle");
+                  selectb2.classList.add("border");
+                  selectb2.classList.add("border-warning");
+                  selectb2.classList.add("rounded-3");
+                  selectb3 = document.getElementById('-<%=datecollected[0][1]%><%=datecollected[0][0]%>-');
+                  selectb3.classList.add("text-warning-emphasis");
+                  selectb3.classList.add("bg-warning-subtle");
+                  selectb3.classList.add("border");
+                  selectb3.classList.add("border-warning");
+                  selectb3.classList.add("rounded-3");
+                  selectb4 = document.getElementById('-<%=datecollected[1][1]%><%=datecollected[1][0]%>-');
+                  selectb4.classList.add("text-warning-emphasis");
+                  selectb4.classList.add("bg-warning-subtle");
+                  selectb4.classList.add("border");
+                  selectb4.classList.add("border-warning");
+                  selectb4.classList.add("rounded-3");
+                  selectb5 = document.getElementById('-<%=datecollected[0][1]%><%=datecollected[0][0]%>-');
+                  selectb5.classList.add("text-warning-emphasis");
+                  selectb5.classList.add("bg-warning-subtle");
+                  selectb5.classList.add("border");
+                  selectb5.classList.add("border-warning");
+                  selectb5.classList.add("rounded-3");
+                  select1 = document.getElementById('<%=datecollected[0][1]%>-<%=datecollected[0][0]%>');
+                  select1.innerHTML += `<h6 class="card-subtitle mb-2 text-muted"><%=datecollected[0][2]%></h6><p class="card-text"><%=datecollected[0][3]%></p>`;
+                  select2 = document.getElementById('<%=datecollected[1][1]%>-<%=datecollected[1][0]%>');
+                  select2.innerHTML += `<h6 class="card-subtitle mb-2 text-muted"><%=datecollected[1][2]%></h6><p class="card-text"><%=datecollected[1][3]%></p>`;
+                  select3 = document.getElementById('<%=datecollected[2][1]%>-<%=datecollected[2][0]%>');
+                  select3.innerHTML += `<h6 class="card-subtitle mb-2 text-muted"><%=datecollected[2][2]%></h6><p class="card-text"><%=datecollected[2][3]%></p>`;
+                </script>
+          <% } %>  
+    </section>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+</body>
+</html>
